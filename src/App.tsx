@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
-import { createTodo, getTodos, updateTodo, USER_ID } from './api/todos';
+import { createTodo, getTodos, USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
 import { SortType } from './types/sortField';
 
