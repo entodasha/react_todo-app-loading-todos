@@ -11,4 +11,8 @@ export const createTodo = (todo: Omit<Todo, 'id'>) => {
   return client.post<Todo>('/todos', todo);
 };
 
+export const updateTodo = (id: number, todo: Todo) => {
+  return client.patch<Todo>(`/todos/${id}`, todo);
+};
+
 // Add more methods here

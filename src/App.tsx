@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
-import { createTodo, getTodos, USER_ID } from './api/todos';
+import { createTodo, getTodos, updateTodo, USER_ID } from './api/todos';
 import { Todo } from './types/Todo';
 import { SortType } from './types/sortField';
 
@@ -14,7 +14,9 @@ export const App: React.FC = () => {
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [sortField, setSortField] = useState<SortType>(SortType.default);
-  let completedCount = todos.filter(todo => !todo.completed).length;
+  const completedCount = useMemo(() => {
+    return todos.filter(todo => !todo.completed).length;
+  }, [todos]);
 
   useEffect(() => {
     todoField.current?.focus();
@@ -30,7 +32,9 @@ export const App: React.FC = () => {
       .finally(() => {
         setIsLoading(false);
       });
+  }, []);
 
+  useEffect(() => {
     if (!errorMessage) {
       return;
     }
@@ -62,7 +66,6 @@ export const App: React.FC = () => {
     createTodo({ ...newTodo })
       .then(addedTodo => {
         setTodos([addedTodo, ...todos]);
-        completedCount = todos.filter(todo => !todo.completed).length + 1;
         setQuery('');
       })
       .catch(() => {
@@ -146,7 +149,7 @@ export const App: React.FC = () => {
                   data-cy="TodoStatus"
                   type="checkbox"
                   className="todo__status"
-                  defaultChecked={todo.completed}
+                  checked={todo.completed}
                 />
               </label>
 
